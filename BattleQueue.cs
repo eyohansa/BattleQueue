@@ -48,10 +48,33 @@ namespace BattleQueue
             }
             else
             {
-                iterator = Head;
-                ///
-                /// TODO: INSERT THEN PUT IN ORDER
-                ///
+                while(newNode.Value > iterator.Value && iterator.Next != null)
+                {
+                    iterator = iterator.Next;
+                }
+
+                if (newNode.Value == iterator.Value)
+                {
+                    newNode.Next = iterator.Next;
+                    iterator.Next = newNode;
+                    newNode.Previous = iterator;
+                }
+                else
+                {
+                    if (iterator.Previous != null)
+                    {
+                        iterator.Previous.Next = newNode;
+                    }
+                    newNode.Previous = iterator.Previous;
+                    iterator.Previous = newNode;
+                    newNode.Next = iterator;
+                }
+
+                if (newNode.Previous == null)
+                    Head = newNode;
+
+                if (newNode.Next == null)
+                    Tail = newNode;
             }
         }
 
@@ -60,14 +83,13 @@ namespace BattleQueue
             var iterator = Head;
             if (iterator != null)
             {
-                Console.Write(iterator.Value);
-                while (iterator.Next != null)
+                do
                 {
+                    Console.Write($"{iterator.Value} ");
                     iterator = iterator.Next;
-                    Console.Write($" {iterator.Value}");
-                }
+                } while (iterator != null);
             }
-            Console.WriteLine(" <<");
+            Console.WriteLine("");
         }
 
         public void PrintReverse()
@@ -81,7 +103,7 @@ namespace BattleQueue
                     iterator = iterator.Previous;
                     Console.Write($" {iterator.Value}");
                 }
-                Console.WriteLine(" >>");
+                Console.WriteLine("");
             }
         }
 
@@ -102,7 +124,7 @@ namespace BattleQueue
                     count--;
                 }
             }
-            Console.WriteLine(" <<");
+            Console.WriteLine("");
         }
     }
 }
